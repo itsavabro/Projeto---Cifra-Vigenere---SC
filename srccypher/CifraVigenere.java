@@ -18,11 +18,11 @@ public class CifraVigenere extends JFrame {
         setSize(600, 400);
         setLocationRelativeTo(null);
 
-        // Painel principal
+        
         JPanel painelPrincipal = new JPanel(new BorderLayout(10, 10));
         painelPrincipal.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        // Painel de entrada
+        
         JPanel painelEntrada = new JPanel(new BorderLayout());
         painelEntrada.setBorder(BorderFactory.createTitledBorder("Texto de Entrada"));
         areaTextoEntrada = new JTextArea(5, 20);
@@ -30,13 +30,13 @@ public class CifraVigenere extends JFrame {
         JScrollPane rolagemEntrada = new JScrollPane(areaTextoEntrada);
         painelEntrada.add(rolagemEntrada, BorderLayout.CENTER);
 
-        // Painel de chave
+        
         JPanel painelChave = new JPanel(new FlowLayout(FlowLayout.LEFT));
         painelChave.add(new JLabel("Chave:"));
         campoChave = new JTextField(20);
         painelChave.add(campoChave);
 
-        // Painel de botões
+        
         JPanel painelBotoes = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
         botaoCifrar = new JButton("Cifrar");
         botaoDecifrar = new JButton("Decifrar");
@@ -45,7 +45,7 @@ public class CifraVigenere extends JFrame {
         painelBotoes.add(botaoDecifrar);
         painelBotoes.add(botaoCopiar);
 
-        // Painel de saída
+        
         JPanel painelSaida = new JPanel(new BorderLayout());
         painelSaida.setBorder(BorderFactory.createTitledBorder("Resultado"));
         areaTextoResultado = new JTextArea(5, 20);
@@ -54,16 +54,16 @@ public class CifraVigenere extends JFrame {
         JScrollPane rolagemSaida = new JScrollPane(areaTextoResultado);
         painelSaida.add(rolagemSaida, BorderLayout.CENTER);
 
-        // Adicionando componentes ao painel principal
+       
         painelPrincipal.add(painelEntrada, BorderLayout.NORTH);
         painelPrincipal.add(painelChave, BorderLayout.CENTER);
         painelPrincipal.add(painelBotoes, BorderLayout.SOUTH);
 
-        // Adicionando painel de saída
+        
         add(painelPrincipal, BorderLayout.NORTH);
         add(painelSaida, BorderLayout.CENTER);
 
-        // Configurando listeners
+        
         botaoCifrar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -121,7 +121,7 @@ public class CifraVigenere extends JFrame {
             char caractere = texto.charAt(i);
 
             if (Character.isLetter(caractere)) {
-                // Determina o deslocamento da chave
+                
                 char caractereChave = chave.charAt(indiceChave % chave.length());
                 int deslocamento = caractereChave - 'A';
 
@@ -129,7 +129,7 @@ public class CifraVigenere extends JFrame {
                     deslocamento = -deslocamento;
                 }
 
-                // Aplica a cifra de Vigenère
+               
                 char base = Character.isUpperCase(caractere) ? 'A' : 'a';
                 int posicaoOriginal = caractere - base;
                 int novaPosicao = (posicaoOriginal + deslocamento + 26) % 26;
@@ -138,7 +138,7 @@ public class CifraVigenere extends JFrame {
 
                 indiceChave++;
             } else {
-                // Mantém caracteres não-alfabéticos como estão (incluindo espaços)
+                
                 resultado.append(caractere);
             }
         }
