@@ -18,11 +18,11 @@ public class AtaqueVigenere extends JFrame {
         setSize(600, 500);
         setLocationRelativeTo(null);
 
-        // Painel principal
+        
         JPanel painelPrincipal = new JPanel(new BorderLayout(10, 10));
         painelPrincipal.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        // Painel de entrada
+        
         JPanel painelEntrada = new JPanel(new BorderLayout());
         painelEntrada.setBorder(BorderFactory.createTitledBorder("Texto Cifrado"));
         areaTextoCifrado = new JTextArea(5, 20);
@@ -30,21 +30,21 @@ public class AtaqueVigenere extends JFrame {
         JScrollPane rolagemEntrada = new JScrollPane(areaTextoCifrado);
         painelEntrada.add(rolagemEntrada, BorderLayout.CENTER);
 
-        // Painel de informações
+        
         JPanel painelInformacoes = new JPanel(new GridLayout(2, 1));
         rotuloTamanhoChave = new JLabel("Tamanho provável da chave: ");
         rotuloChaveEncontrada = new JLabel("Chave encontrada: ");
         painelInformacoes.add(rotuloTamanhoChave);
         painelInformacoes.add(rotuloChaveEncontrada);
 
-        // Painel de botões
+        
         JPanel painelBotoes = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
         botaoQuebrar = new JButton("Quebrar Cifra");
         botaoCopiar = new JButton("Copiar Resultado");
         painelBotoes.add(botaoQuebrar);
         painelBotoes.add(botaoCopiar);
 
-        // Painel de saída
+        
         JPanel painelSaida = new JPanel(new BorderLayout());
         painelSaida.setBorder(BorderFactory.createTitledBorder("Texto Decifrado"));
         areaTextoResultado = new JTextArea(5, 20);
@@ -53,16 +53,16 @@ public class AtaqueVigenere extends JFrame {
         JScrollPane rolagemSaida = new JScrollPane(areaTextoResultado);
         painelSaida.add(rolagemSaida, BorderLayout.CENTER);
 
-        // Adicionando componentes ao painel principal
+        
         painelPrincipal.add(painelEntrada, BorderLayout.NORTH);
         painelPrincipal.add(painelInformacoes, BorderLayout.CENTER);
         painelPrincipal.add(painelBotoes, BorderLayout.SOUTH);
 
-        // Adicionando painel de saída
+        
         add(painelPrincipal, BorderLayout.NORTH);
         add(painelSaida, BorderLayout.CENTER);
 
-        // Configurando listeners
+        
         botaoQuebrar.addActionListener(e -> quebrarCifra());
         botaoCopiar.addActionListener(e -> copiarParaAreaTransferencia());
     }
@@ -75,15 +75,15 @@ public class AtaqueVigenere extends JFrame {
             return;
         }
 
-        // Passo 1: Determinar o tamanho provável da chave usando o teste de Kasiski
+        
         int tamanhoChave = determinarTamanhoChave(textoCifrado);
         rotuloTamanhoChave.setText("Tamanho provável da chave: " + tamanhoChave);
 
-        // Passo 2: Determinar a chave usando análise de frequência
+        
         String chaveEncontrada = encontrarChave(textoCifrado, tamanhoChave);
         rotuloChaveEncontrada.setText("Chave encontrada: " + chaveEncontrada);
 
-        // Passo 3: Decifrar o texto usando a chave encontrada
+       
         String textoDecifrado = decifrarTexto(areaTextoCifrado.getText(), chaveEncontrada);
         areaTextoResultado.setText(textoDecifrado);
     }
@@ -91,14 +91,14 @@ public class AtaqueVigenere extends JFrame {
     private int determinarTamanhoChave(String texto) {
         Map<String, List<Integer>> sequencias = new HashMap<>();
         
-        // Encontrar sequências repetidas de 3 caracteres
+       
         for (int i = 0; i < texto.length() - 2; i++) {
             String sequencia = texto.substring(i, i + 3);
             sequencias.putIfAbsent(sequencia, new ArrayList<>());
             sequencias.get(sequencia).add(i);
         }
         
-        // Calcular distâncias entre sequências repetidas
+        
         List<Integer> distancias = new ArrayList<>();
         for (List<Integer> posicoes : sequencias.values()) {
             if (posicoes.size() > 1) {
@@ -108,7 +108,7 @@ public class AtaqueVigenere extends JFrame {
             }
         }
         
-        // Encontrar MDC das distâncias para estimar o tamanho da chave
+       
         if (distancias.isEmpty()) {
             return 1; // Se não encontrou sequências repetidas, assume chave de tamanho 1 (César)
         }
@@ -133,7 +133,7 @@ public class AtaqueVigenere extends JFrame {
     private String encontrarChave(String texto, int tamanhoChave) {
         StringBuilder chave = new StringBuilder();
         
-        // Frequências de letras em inglês (A-Z)
+        
         double[] frequenciasIngles = {
             0.08167, 0.01492, 0.02782, 0.04253, 0.12702, 0.02228, 0.02015, // A-G
             0.06094, 0.06966, 0.00153, 0.00772, 0.04025, 0.02406, 0.06749, // H-N
@@ -141,23 +141,23 @@ public class AtaqueVigenere extends JFrame {
             0.00978, 0.02360, 0.00150, 0.01974, 0.00074                     // V-Z
         };
         
-        // Para cada posição na chave
+        
         for (int pos = 0; pos < tamanhoChave; pos++) {
-            // Coletar letras que foram cifradas com esta letra da chave
+            
             StringBuilder grupo = new StringBuilder();
             for (int i = pos; i < texto.length(); i += tamanhoChave) {
                 grupo.append(texto.charAt(i));
             }
             
-            // Encontrar o deslocamento mais provável
+            
             int melhorDeslocamento = 0;
             double melhorScore = Double.NEGATIVE_INFINITY;
             
-            // Testar cada possível deslocamento (A-Z)
+             deslocamento (A-Z)
             for (int deslocamento = 0; deslocamento < 26; deslocamento++) {
                 double score = 0;
                 
-                // Contar frequências no grupo decifrado com este deslocamento
+                
                 int[] contagens = new int[26];
                 int totalLetras = 0;
                 
@@ -168,7 +168,7 @@ public class AtaqueVigenere extends JFrame {
                     totalLetras++;
                 }
                 
-                // Calcular score baseado na similaridade com as frequências do inglês
+               
                 for (int i = 0; i < 26; i++) {
                     double frequenciaObservada = (double) contagens[i] / totalLetras;
                     score += frequenciaObservada * frequenciasIngles[i];
@@ -199,7 +199,7 @@ public class AtaqueVigenere extends JFrame {
                 char chaveChar = chave.charAt(indiceChave % chave.length());
                 int deslocamento = chaveChar - 'A';
                 
-                // Decifrar
+                
                 int originalPos = c - base;
                 int newPos = (originalPos - deslocamento + 26) % 26;
                 char newChar = (char) (base + newPos);
@@ -207,7 +207,7 @@ public class AtaqueVigenere extends JFrame {
                 
                 indiceChave++;
             } else {
-                // Manter caracteres não-alfabéticos
+               
                 resultado.append(c);
             }
         }
